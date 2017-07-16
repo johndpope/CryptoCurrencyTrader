@@ -16,5 +16,5 @@ An ideal trading strategy is generated based on past data, every candlestick is 
 A buy threshold and sell threshold are selected which maximise profit based on the score returned for the training data, where a sell or buy signal is generated if the respective threshold is crossed.
 
 ## Machine Learning Meta-fitting and Hyper Parameter Optimisation
-The machine learning optimisation is based on a two layer random search, as outlined in the diagram below. The meta-fitting selects a machine learning and preprocessing pair, the selected machine learning model is then optimised using a second random grid search to fit the hyperparameters for that particular 
+The machine learning optimisation is based on a two layer random search, as outlined in the diagram below. The meta-fitting selects a machine learning and preprocessing pair, the selected machine learning model is then optimised using a second random grid search to fit the hyperparameters for that particular machine learning model. 
 ![Alt text](ML_Flowchart.png?raw=true "Optional Title")
