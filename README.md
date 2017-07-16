@@ -5,5 +5,5 @@ The script is inspired by both the pytrader project https://github.com/owocki/py
 ## Input Data
 ![Alt text](strategyscore.jpg?raw=true "Optional Title")
 
-## Machine Learning Meta-fitting and hyper parameter optimisation
-![Alt text](ML_Flowchart.jpg?raw=true "Optional Title")
+## Machine Learning Meta-fitting and Hyper Parameter Optimisation
+![Alt text](ML_Flowchart.png?raw=true "Optional Title")
