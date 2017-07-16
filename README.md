@@ -9,8 +9,12 @@ Minor changes were made to the Poloniex API python wrapper which is inluded in t
 A series of technical indicators are calculated and provided as inputs to the machine learning optimisation, exponential moving averages and exponential moving volatilities over a series of windows. A kalman filter is also provided as an input.
 
 ### Training Targets - Strategy Score
-An ideal trading strategy is generated based on past data, if for a given candlestick the trader is holding 
+An ideal trading strategy is generated based on past data, every candlestick is given a score which represent the potential profit or loss before the next price reversal exceeding the combined transaction fee and bid ask spread.
 ![Alt text](strategyscore.jpg?raw=true "Optional Title")
 
+### Validation and Strategy Generation
+A buy threshold and sell threshold are selected which maximise profit based on the score returned for the training data, where a sell or buy signal is generated if the respective threshold is crossed.
+
 ## Machine Learning Meta-fitting and Hyper Parameter Optimisation
+The machine learning optimisation is based on a two layer random search, as outlined in the diagram below. The meta-fitting selects a machine learning and preprocessing pair, the selected machine learning model is then optimised using a second random grid search to fit the hyperparameters for that particular 
 ![Alt text](ML_Flowchart.png?raw=true "Optional Title")
