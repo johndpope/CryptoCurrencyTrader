@@ -20,4 +20,4 @@ The machine learning optimisation is based on a two layer random search, as outl
 ![Alt text](ML_Flowchart.png?raw=true "Optional Title")
 
 ## Validation
-In order to estiamte the amoutn of overfitting, a series of offset hyperparameter fittings are perforemd
+In order to estimate the amount of overfitting, a series of offset hyperparameter fittings are performed
