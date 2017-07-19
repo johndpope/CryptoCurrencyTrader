@@ -22,10 +22,10 @@ The machine learning optimisation is based on a two layer random search, as outl
 ## Validation
 In order to estimate the amount of overfitting, a series of offset hyperparameter fittings are performed. If the trading strategy is not overfit, fitting should be approximately consistent across at all offsets in terms of profit fraction and fitting error.
 
-## To DO
+## To Do
 With none of the different automated machine learning optimisation strategies was I able to get a set of fitting parameters which was consistently profitable at multiple offsets.
 * Add more candlestick inputs.
-*Add none price data.
+* Add none price data.
 * Improve selection of technical indicators to efficiently provide the most information from the market (reduce redundancy.)
 
 
