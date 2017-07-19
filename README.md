@@ -20,4 +20,4 @@ The machine learning optimisation is based on a two layer random search, as outl
 ![Alt text](ML_Flowchart.png?raw=true "Optional Title")
 
 ## Validation
-In order to estimate the amount of overfitting, a series of offset hyperparameter fittings are performed
+In order to estimate the amount of overfitting, a series of offset hyperparameter fittings are performed. If the trading strategy is not overfit, fitting should be approximately consistent across at all offsets in terms of profit fraction and fitting error.
