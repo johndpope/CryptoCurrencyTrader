@@ -6,8 +6,6 @@ from sklearn.decomposition import PCA, FastICA
 from poloniex_API import poloniex
 from API_settings import API_secret, API_key
 
-#TEST
-from matplotlib import pyplot as plt
 
 class Data:   
     def __init__(self, currency_pair, start, end, period):
@@ -277,10 +275,13 @@ def generate_training_variables(data_obj, strategy_dictionary):
         #data_obj.exponential_moving_volatility_1,
         #data_obj.exponential_moving_volatility_2,
         #data_obj.exponential_moving_volatility_3,
-        #data_obj.exponential_moving_volatility_4,
-        #data_obj.exponential_moving_volatility_5,
+        data_obj.exponential_moving_volatility_4,
+        data_obj.exponential_moving_volatility_5,
         data_obj.kalman_signal,
         data_obj.close[:-1],
+        data_obj.open[:-1],
+        data_obj.high[:-1],
+        data_obj.low[:-1],
         ))
 
     fitting_inputs = fitting_inputs.T

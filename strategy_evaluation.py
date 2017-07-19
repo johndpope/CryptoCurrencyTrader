@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 def strategy_profit(currency_position, fractional_price, strategy_dictionary):
@@ -39,6 +40,7 @@ def number_of_trades_from_currency_position(currency_position):
 
 def convert_score_to_buy_sell(strategy_score, buy_threshold, sell_threshold):
     buy_sell = np.zeros(len(strategy_score))
+
     buy_sell[strategy_score > buy_threshold] = 1
     buy_sell[strategy_score <= sell_threshold] = -1
 
@@ -55,6 +57,7 @@ def convert_strategy_score_to_profit(strategy_local, buy_threshold, sell_thresho
 
 def post_process_regression_results(fitting_dictionary, strategy_dictionary, fractional_close):
     profit_optimum = -1e5
+
     for buy_threshold in np.linspace(min(fitting_dictionary['training_strategy_score']),
                                      max(fitting_dictionary['training_strategy_score']), 20):
         for sell_threshold in np.linspace(min(fitting_dictionary['training_strategy_score']),
