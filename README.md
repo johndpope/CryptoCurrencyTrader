@@ -25,7 +25,7 @@ In order to estimate the amount of overfitting, a series of offset hyperparamete
 ## To DO
 With none of the different automated machine learning optimisation strategies was I able to get a set of fitting parameters which was consistently profitable at multiple offsets.
 * Add more candlestick inputs.
-*Add none price data.
+* Add none price data.
 * Improve selection of technical indicators to efficiently provide the most information from the market (reduce redundancy.)
 
 
