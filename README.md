@@ -9,7 +9,7 @@ Minor changes were made to the Poloniex API python wrapper which is inluded in t
 A series of technical indicators are calculated and provided as inputs to the machine learning optimisation, exponential moving averages and exponential moving volatilities over a series of windows. A kalman filter is also provided as an input.
 
 ### Training Targets - Strategy Score
-An ideal trading strategy is generated based on past data, every candlestick is given a score which represent the potential profit or loss before the next price reversal exceeding the combined transaction fee and bid ask spread.
+An ideal trading strategy is generated based on past data, every candlestick is given a score which represent the potential profit or loss before the next price reversal exceeding the combined transaction fee and bid ask spread. This minimum price reversal is represented by Δp in the diagram below.
 ![Alt text](strategyscore.jpg?raw=true "Optional Title")
 
 ### Strategy Generation
