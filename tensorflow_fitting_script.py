@@ -1,8 +1,8 @@
 import numpy as np
 import random
-from trading_strategy_fitting import fit_tensorflow, tic, tensorflow_offset_scan_validation, fit_tensorflow
+from trading_strategy_fitting import fit_tensorflow, tic, tensorflow_offset_scan_validation, fit_tensorflow,\
+    underlined_output
 from strategy_evaluation import output_strategy_results
-from sklearn_evaluation_script import underlined_output
 
 
 def random_search(strategy_dictionary_local, n_iterations):
@@ -18,7 +18,7 @@ def random_search(strategy_dictionary_local, n_iterations):
         else:
             strategy_dictionary_local = randomise_dictionary_inputs(strategy_dictionary_local)
 
-        fitting_dictionary, data_to_predict, error_loop = fit_tensorflow(strategy_dictionary_local)
+        fitting_dictionary, data_to_predict, error_loop, profit_factor = fit_tensorflow(strategy_dictionary_local)
 
         if error_loop < error:
             error = error_loop
@@ -38,6 +38,9 @@ def randomise_dictionary_inputs(strategy_dictionary):
 
 
 def randomise_sequence_dictionary_inputs(strategy_dictionary):
+    strategy_dictionary['learning_rate'] = 10 ** np.random.uniform(-5, -1)
+    strategy_dictionary['num_layers'] = random.randint(1, 30)
+    strategy_dictionary['num_units'] = random.randint(5, 200)
     return strategy_dictionary
 
 
@@ -51,7 +54,7 @@ if __name__ == '__main__':
         'offset': 0,
         'bid_ask_spread': 0.001,
         'transaction_fee': 0.0025,
-        'train_test_ratio': 0.9,
+        'train_test_ratio': 0.75,
         'output_flag': True,
         'plot_flag': False,
         'target_score': 'idealstrategy',
@@ -59,20 +62,18 @@ if __name__ == '__main__':
         'regression_mode': 'regression',
         'preprocessing': 'None',
         'ml_mode': 'tensorflow',
-        'sequence_flag': True,
+        'sequence_flag': False,
         'output_units': 1,
-        'learning_rate': 0.1,
-        'num_layers': 7,
-        'num_units': 10,
     }
 
-    search_iterations = 1
+    search_iterations = 2
 
     strategy_dictionary = random_search(strategy_dictionary, search_iterations)
 
     underlined_output('Offset validation')
-    offsets = np.linspace(0, 300, 5)
+    offsets = np.linspace(0, 700, 20)
 
     tensorflow_offset_scan_validation(strategy_dictionary, offsets)
 
     print strategy_dictionary
+    

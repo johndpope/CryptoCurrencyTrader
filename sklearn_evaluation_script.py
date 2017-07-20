@@ -1,6 +1,6 @@
 import numpy as np
 from random import randint, choice
-from trading_strategy_fitting import fit_strategy, offset_scan_validation, tic
+from trading_strategy_fitting import fit_strategy, offset_scan_validation, tic, underlined_output
 from strategy_evaluation import output_strategy_results
 
 
@@ -12,7 +12,7 @@ def random_search(strategy_dictionary_local, n_iterations):
     while counter < n_iterations:
         counter += 1
         strategy_dictionary_local = randomise_dictionary_inputs(strategy_dictionary_local)
-        fitting_dictionary, data_to_predict = fit_strategy(strategy_dictionary_local)
+        fitting_dictionary, data_to_predict, profit_factor = fit_strategy(strategy_dictionary_local)
         error_loop = fitting_dictionary['error']
 
         if error_loop > error and fitting_dictionary['n_trades'] != 0:
@@ -33,10 +33,6 @@ def randomise_dictionary_inputs(strategy_dictionary_local):
     return strategy_dictionary_local
 
 
-def underlined_output(string):
-    print string
-    print '----------------------'
-    print '\n'
 
 if __name__ == '__main__':
     strategy_dictionary = {

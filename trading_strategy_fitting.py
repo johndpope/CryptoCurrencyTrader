@@ -86,18 +86,36 @@ def offset_scan_validation(strategy_dictionary, offsets):
     strategy_dictionary['plot_flag'] = False
     strategy_dictionary['ouput_flag'] = True
 
+    total_error = 0
+    total_profit = 0
+
     for offset in offsets:
         strategy_dictionary['offset'] = offset
-        fit_strategy(strategy_dictionary)
+        fitting_dictionary, data_to_predict, error, profit_fraction = fit_strategy(strategy_dictionary)
+        total_error += error / len(offsets)
+        total_profit += profit_fraction
+
+    underlined_output('Averages: ')
+    print 'Total profit: ', total_profit
+    print 'Average error: ', total_error
 
 
 def tensorflow_offset_scan_validation(strategy_dictionary, offsets):
     strategy_dictionary['plot_flag'] = False
     strategy_dictionary['ouput_flag'] = True
+    
+    total_error = 0
+    total_profit = 0
 
     for offset in offsets:
         strategy_dictionary['offset'] = offset
-        fit_tensorflow(strategy_dictionary)
+        fitting_dictionary, data_to_predict, error, profit_fraction = fit_tensorflow(strategy_dictionary)
+        total_error += error
+        total_profit += profit_fraction
+
+    underlined_output('Averages: ')
+    print 'Total profit: ', total_profit
+    print 'Average error: ', total_error
 
 
 def fit_strategy(strategy_dictionary):
@@ -110,9 +128,9 @@ def fit_strategy(strategy_dictionary):
 
     fitting_dictionary = post_process_training_results(strategy_dictionary, fitting_dictionary, data_to_predict)
 
-    output_strategy_results(strategy_dictionary, fitting_dictionary, data_to_predict, toc)
+    profit_factor = output_strategy_results(strategy_dictionary, fitting_dictionary, data_to_predict, toc)
 
-    return fitting_dictionary, data_to_predict
+    return fitting_dictionary, data_to_predict, profit_factor
 
 
 def fit_tensorflow(strategy_dictionary):
@@ -136,6 +154,11 @@ def fit_tensorflow(strategy_dictionary):
 
     fitting_dictionary = post_process_training_results(strategy_dictionary, fitting_dictionary, data_to_predict)
 
-    output_strategy_results(strategy_dictionary, fitting_dictionary, data_to_predict, toc)
-    return fitting_dictionary, data_to_predict, error
+    profit_factor = output_strategy_results(strategy_dictionary, fitting_dictionary, data_to_predict, toc)
+    return fitting_dictionary, data_to_predict, error, profit_factor
 
+
+def underlined_output(string):
+    print string
+    print '----------------------'
+    print '\n'

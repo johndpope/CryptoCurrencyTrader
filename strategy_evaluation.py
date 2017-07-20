@@ -118,11 +118,11 @@ def output_strategy_results(strategy_dictionary, fitting_dictionary, data_to_pre
 
     if strategy_dictionary['output_flag']:
         print "Fitting time: ", toc()
+        
+        profit_factor = fitting_dictionary['portfolio_value'][-1] * prediction_data[0]\
+                        / (fitting_dictionary['portfolio_value'][0] * prediction_data[-1]) - 1
 
-        print "Fractional profit compared to buy and hold: ", fitting_dictionary['portfolio_value'][-1]\
-                                                                * prediction_data[0]\
-                                                                / (fitting_dictionary['portfolio_value'][0]
-                                                                * prediction_data[-1]) - 1
+        print "Fractional profit compared to buy and hold: ", profit_factor
         print "Cross validation error: ", fitting_dictionary['error']
         print "Number of days: ", strategy_dictionary['n_days']
         print "Candle time period:", strategy_dictionary['candle_size']
@@ -134,9 +134,12 @@ def output_strategy_results(strategy_dictionary, fitting_dictionary, data_to_pre
 
     if strategy_dictionary['plot_flag']:
         plt.figure(1)
-        plt.plot(prediction_data)
-
-        plt.figure(2)
-        plt.plot(fitting_dictionary['portfolio_value'])
-
+        close_price = plt.plot(prediction_data)
+        portfolio_value = plt.plot(prediction_data[0] * fitting_dictionary['portfolio_value'])
+        plt.title('Trading over 10 days')
+        plt.legend([close_price, portfolio_value], ['Close Price', 'Portfolio Value'])
+        plt.xlabel('Candle number')
+        plt.ylabel('Ethereum - bitcoin exchange rate')
         plt.show()
+    
+    return profit_factor
