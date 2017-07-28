@@ -44,13 +44,13 @@ conda create -n tensorflow-p2 python=2.7
 source activate tensorflow-p2
 conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda  
 conda install -c auto multiprocessing statsmodels arch
-pip install arch
+pip install arch polyaxon
 
 ## Windows
 conda create -n tensorflow-p2 python=2.7
 activate tensorflow-p2
 conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda  
 conda install -c auto multiprocessing statsmodels arch
-pip install arch
+pip install arch polyaxon
 
 
