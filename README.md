@@ -36,3 +36,21 @@ With none of the different automated machine learning optimisation strategies wa
 * Improve selection of technical indicators to efficiently provide the most information from the market (reduce redundancy.)
 
 
+## Python 2.7 + Tensorflow + MiniConda
+https://conda.io/docs/installation.html
+https://conda.io/docs/_downloads/conda-cheatsheet.pdf
+## OSX / linux
+conda create -n tensorflow-p2 python=2.7
+source activate tensorflow-p2
+conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda  
+conda install -c auto multiprocessing statsmodels arch
+pip install arch
+
+## Windows
+conda create -n tensorflow-p2 python=2.7
+activate tensorflow-p2
+conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda  
+conda install -c auto multiprocessing statsmodels arch
+pip install arch
+
+
