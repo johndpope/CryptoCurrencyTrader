@@ -37,20 +37,20 @@ With none of the different automated machine learning optimisation strategies wa
 
 
 ## Python 2.7 + Tensorflow + MiniConda
-https://conda.io/docs/installation.html
-https://conda.io/docs/_downloads/conda-cheatsheet.pdf
-## OSX / linux
-conda create -n tensorflow-p2 python=2.7
-source activate tensorflow-p2
-conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda  
-conda install -c auto multiprocessing statsmodels arch
-pip install arch polyaxon
+https://conda.io/docs/installation.html    
+https://conda.io/docs/_downloads/conda-cheatsheet.pdf   
+## OSX / linux   
+conda create -n tensorflow-p2 python=2.7   
+source activate tensorflow-p2    
+conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda     
+conda install -c auto multiprocessing statsmodels arch   
+pip install arch polyaxon   
 
 ## Windows
-conda create -n tensorflow-p2 python=2.7
-activate tensorflow-p2
-conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda  
-conda install -c auto multiprocessing statsmodels arch
-pip install arch polyaxon
+conda create -n tensorflow-p2 python=2.7   
+activate tensorflow-p2   
+conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda    
+conda install -c auto multiprocessing statsmodels arch    
+pip install arch polyaxon   
 
 
