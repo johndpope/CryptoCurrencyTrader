@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from trading_strategy_fitting import fit_tensorflow, tic, tensorflow_offset_scan_validation, fit_tensorflow,\
+from trading_strategy_fitting import tic, tensorflow_offset_scan_validation, fit_tensorflow,\
     underlined_output
 from strategy_evaluation import output_strategy_results
 
@@ -64,6 +64,9 @@ if __name__ == '__main__':
         'ml_mode': 'tensorflow',
         'sequence_flag': False,
         'output_units': 1,
+        'web_flag': 'False',
+        'filename1': "USDT_BTC.csv",
+        'filename2': "BTC_ETH.csv"
     }
 
     search_iterations = 2

@@ -1,8 +1,7 @@
 import numpy as np
 from time import time
-from matplotlib import pyplot as plt
 from data_input_processing import Data, train_test_indices, generate_training_variables
-from strategy_evaluation import post_process_training_results, output_strategy_results, convert_strategy_score_to_profit
+from strategy_evaluation import post_process_training_results, output_strategy_results
 from machine_learning import random_forest_fitting, svm_fitting, adaboost_fitting, gradient_boosting_fitting,\
     extra_trees_fitting, tensorflow_fitting, tensorflow_sequence_fitting
 
@@ -65,7 +64,7 @@ def tic():
     return lambda: (time() - t)
 
 
-def retrieve_data(ticker, strategy_dictionary):
+def retrieve_data(ticker, strategy_dictionary, filename=None):
     end = time() - strategy_dictionary['offset'] * SEC_IN_DAY
 
     start = end - SEC_IN_DAY * strategy_dictionary['n_days']
@@ -73,7 +72,8 @@ def retrieve_data(ticker, strategy_dictionary):
     data_local = None
     while data_local is None:
         try:
-            data_local = Data(ticker, start, end, strategy_dictionary['candle_size'])
+            data_local = Data(
+                ticker, start, end, strategy_dictionary['candle_size'], strategy_dictionary['web_flag'], filename)
         except:
             pass
 
@@ -118,11 +118,18 @@ def tensorflow_offset_scan_validation(strategy_dictionary, offsets):
     print 'Average error: ', total_error
 
 
+def import_data(strategy_dictionary):
+    data_to_predict = retrieve_data(
+        strategy_dictionary['ticker_1'], strategy_dictionary, strategy_dictionary['filename1'])
+    data_2 = retrieve_data(strategy_dictionary['ticker_2'], strategy_dictionary, strategy_dictionary['filename2'])
+
+    return data_to_predict, data_2
+
+
 def fit_strategy(strategy_dictionary):
     toc = tic()
 
-    data_to_predict = retrieve_data(strategy_dictionary['ticker_1'], strategy_dictionary)
-    data_2 = retrieve_data(strategy_dictionary['ticker_2'], strategy_dictionary)
+    data_to_predict, data_2 = import_data(strategy_dictionary)
 
     fitting_dictionary = meta_fitting(data_to_predict, data_2, strategy_dictionary)
 
@@ -136,10 +143,9 @@ def fit_strategy(strategy_dictionary):
 def fit_tensorflow(strategy_dictionary):
     toc = tic()
 
-    data_to_predict = retrieve_data(strategy_dictionary['ticker_1'], strategy_dictionary)
-    data_input_2 = retrieve_data(strategy_dictionary['ticker_2'], strategy_dictionary)
+    data_to_predict, data_2 = import_data(strategy_dictionary)
 
-    fitting_inputs, fitting_targets = input_processing(data_to_predict, data_input_2, strategy_dictionary)
+    fitting_inputs, fitting_targets = input_processing(data_to_predict, data_2, strategy_dictionary)
     train_indices, test_indices = train_test_indices(fitting_inputs, strategy_dictionary['train_test_ratio'])
 
     if strategy_dictionary['sequence_flag']:
