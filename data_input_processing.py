@@ -47,11 +47,11 @@ class Data:
 
         self.date = candle_array[start_index:period_index:end_index, 0]
         self.open = candle_array[start_index:period_index:end_index, 3]
-        self.close = candle_array[(start_index + period_index - 1):period_index:end_index, 4]
+        self.close = candle_array[(start_index + period_index - 1):end_index:period_index, 4]
         self.high = np.zeros(len(self.close))
         self.low = np.zeros(len(self.close))
 
-        for i in range(0, np.floor(len(self.high) / period_index)):
+        for i in range(int(np.floor(len(self.high) / period_index))):
             loop_start = i * period_index
             self.high[i] = np.max(candle_array[loop_start:loop_start + period_index, 1])
             self.low[i] = np.min(candle_array[loop_start:loop_start + period_index, 2])
@@ -282,20 +282,20 @@ def generate_training_variables(data_obj, strategy_dictionary):
 
     fitting_inputs = np.vstack((
         #data_obj.exponential_moving_average_1,
-        #data_obj.exponential_moving_average_2,
-        #data_obj.exponential_moving_average_3,
+        data_obj.exponential_moving_average_2,
+        data_obj.exponential_moving_average_3,
         data_obj.exponential_moving_average_4,
         data_obj.exponential_moving_average_5,
         #data_obj.exponential_moving_volatility_1,
-        #data_obj.exponential_moving_volatility_2,
-        #data_obj.exponential_moving_volatility_3,
+        data_obj.exponential_moving_volatility_2,
+        data_obj.exponential_moving_volatility_3,
         data_obj.exponential_moving_volatility_4,
         data_obj.exponential_moving_volatility_5,
         data_obj.kalman_signal,
-        data_obj.close[:-1],
-        data_obj.open[:-1],
-        data_obj.high[:-1],
-        data_obj.low[:-1],
+        #data_obj.close[:-1],
+        #data_obj.open[:-1],
+        #data_obj.high[:-1],
+        #data_obj.low[:-1],
         ))
 
     fitting_inputs = fitting_inputs.T
