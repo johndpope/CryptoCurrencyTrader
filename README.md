@@ -8,6 +8,8 @@ The information in this repository is provided for information purposes only. Th
 ## Input Data
 Minor changes were made to the Poloniex API python wrapper which is inluded in the repository https://github.com/s4w3d0ff/python-poloniex. Data is retrieved via the Poloniex API in OHLC (open, high, low, close) candlestick format.
 
+Alternatively data can be supplied in the form of .csv files by including them in the working directory, setting web_flag as false and supplying the filenames as filename1 and filename2, (filename1 will be the currency pair used for trading).
+
 ### Technical Indicators - Training Inputs
 A series of technical indicators are calculated and provided as inputs to the machine learning optimisation, exponential moving averages and exponential moving volatilities over a series of windows. A kalman filter is also provided as an input.
 
@@ -31,8 +33,23 @@ In order to estimate the amount of overfitting, a series of offset hyperparamete
 
 ## To Do
 With none of the different automated machine learning optimisation strategies was I able to get a set of fitting parameters which was consistently profitable at multiple offsets.
-* Add more candlestick inputs.
 * Add none price data.
-* Improve selection of technical indicators to efficiently provide the most information from the market (reduce redundancy.)
+
+## Python 2.7 + Tensorflow + MiniConda
+https://conda.io/docs/installation.html    
+https://conda.io/docs/_downloads/conda-cheatsheet.pdf   
+## OSX / linux   
+conda create -n tensorflow-p2 python=2.7   
+source activate tensorflow-p2    
+conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda     
+conda install -c auto multiprocessing statsmodels arch   
+pip install arch polyaxon   
+
+## Windows
+conda create -n tensorflow-p2 python=2.7   
+activate tensorflow-p2   
+conda install numpy pandas matplotlib tensorflow jupyter notebook scipy scikit-learn nb_conda    
+conda install -c auto multiprocessing statsmodels arch    
+pip install arch polyaxon   
 
 

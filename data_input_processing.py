@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from arch import arch_model
 from sklearn.preprocessing import Imputer,minmax_scale
 from sklearn.decomposition import PCA, FastICA
 from poloniex_API import poloniex
@@ -8,7 +7,7 @@ from API_settings import API_secret, API_key
 
 
 class Data:   
-    def __init__(self, currency_pair, start, end, period):
+    def __init__(self, currency_pair, start, end, period, web_flag, filename=None):
         self.date = []
         self.price = []
         self.close = []
@@ -33,14 +32,30 @@ class Data:
         self.exponential_moving_volatility_5 = []
         self.kalman_signal = []
         self.candle_price_difference = []
-        self.candle_input_web(currency_pair, start, end, period)
+        if web_flag:
+            self.candle_input_web(currency_pair, start, end, period)
+        else:
+            self.candle_input_file(filename, start, end, period)
 
-    def candle_input_file(self, filename):
-        candle_array = data = pd.read_csv(filename).as_matrix()
+    def candle_input_file(self, filename, start, end, period):
+        candle_array = pd.read_csv(filename).as_matrix()
 
-        self.date = candle_array[:-1, 0]
-        self.price = candle_array[:-1, 1]
-        self.volume = candle_array[:-1, 2]
+        start_index = (np.abs(candle_array[:, 0] - start)).argmin()
+        end_index = (np.abs(candle_array[:, 0] - end)).argmin()
+
+        period_index = period / 300
+
+        self.date = candle_array[start_index:end_index:period_index, 0]
+        self.open = candle_array[(start_index + period_index):end_index:period_index, 3]
+        self.close = candle_array[(start_index + period_index - 1):end_index:period_index, 4]
+        self.high = np.zeros(len(self.close))
+        self.low = np.zeros(len(self.close))
+
+        for i in range(int(np.floor(len(self.high) / period_index))):
+            loop_start = i * period_index
+            self.high[i] = np.max(candle_array[loop_start:loop_start + period_index, 1])
+            self.low[i] = np.min(candle_array[loop_start:loop_start + period_index, 2])
+
 
     def candle_input_web(self, currency_pair, start, end, period):
         poloniex_session = poloniex(API_key, API_secret)
@@ -53,7 +68,6 @@ class Data:
         self.open = nan_array_initialise(candle_length)
         self.high = nan_array_initialise(candle_length)
         self.low = nan_array_initialise(candle_length)
-        self.time = nan_array_initialise(candle_length)
 
         for loop_counter in range(candle_length):
             self.date[loop_counter] = candle_json[u'candleStick'][loop_counter][u'date']
@@ -268,13 +282,13 @@ def generate_training_variables(data_obj, strategy_dictionary):
 
     fitting_inputs = np.vstack((
         #data_obj.exponential_moving_average_1,
-        #data_obj.exponential_moving_average_2,
-        #data_obj.exponential_moving_average_3,
+        data_obj.exponential_moving_average_2,
+        data_obj.exponential_moving_average_3,
         data_obj.exponential_moving_average_4,
         data_obj.exponential_moving_average_5,
         #data_obj.exponential_moving_volatility_1,
-        #data_obj.exponential_moving_volatility_2,
-        #data_obj.exponential_moving_volatility_3,
+        data_obj.exponential_moving_volatility_2,
+        data_obj.exponential_moving_volatility_3,
         data_obj.exponential_moving_volatility_4,
         data_obj.exponential_moving_volatility_5,
         data_obj.kalman_signal,
@@ -282,6 +296,14 @@ def generate_training_variables(data_obj, strategy_dictionary):
         data_obj.open[:-1],
         data_obj.high[:-1],
         data_obj.low[:-1],
+        pad_nan(data_obj.close[:-2], 1),
+        pad_nan(data_obj.open[:-2], 1),
+        pad_nan(data_obj.high[:-2], 1),
+        pad_nan(data_obj.low[:-2], 1),
+        pad_nan(data_obj.close[:-3], 2),
+        pad_nan(data_obj.open[:-3], 2),
+        pad_nan(data_obj.high[:-3], 2),
+        pad_nan(data_obj.low[:-3], 2),
         ))
 
     fitting_inputs = fitting_inputs.T
@@ -298,6 +320,10 @@ def generate_training_variables(data_obj, strategy_dictionary):
 
     return fitting_inputs_scaled, fitting_targets
 
+
+def pad_nan(vector, n):
+    pad_vector = np.zeros(n)
+    return np.hstack((pad_vector, vector))
 
 def imputer_transform(data):
     imputer = Imputer()

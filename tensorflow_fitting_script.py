@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from trading_strategy_fitting import fit_tensorflow, tic, tensorflow_offset_scan_validation, fit_tensorflow,\
+from trading_strategy_fitting import tic, tensorflow_offset_scan_validation, fit_tensorflow,\
     underlined_output
 from strategy_evaluation import output_strategy_results
 
@@ -64,14 +64,17 @@ if __name__ == '__main__':
         'ml_mode': 'tensorflow',
         'sequence_flag': False,
         'output_units': 1,
+        'web_flag': False,
+        'filename1': "USDT_BTC.csv",
+        'filename2': "BTC_ETH.csv"
     }
 
-    search_iterations = 2
+    search_iterations = 10
 
     strategy_dictionary = random_search(strategy_dictionary, search_iterations)
 
     underlined_output('Offset validation')
-    offsets = np.linspace(0, 700, 20)
+    offsets = np.linspace(0, 300, 10)
 
     tensorflow_offset_scan_validation(strategy_dictionary, offsets)
 
