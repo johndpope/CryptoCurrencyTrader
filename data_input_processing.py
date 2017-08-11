@@ -45,8 +45,8 @@ class Data:
 
         period_index = period / 300
 
-        self.date = candle_array[start_index:period_index:end_index, 0]
-        self.open = candle_array[start_index:period_index:end_index, 3]
+        self.date = candle_array[start_index:end_index:period_index, 0]
+        self.open = candle_array[(start_index + period_index):end_index:period_index, 3]
         self.close = candle_array[(start_index + period_index - 1):end_index:period_index, 4]
         self.high = np.zeros(len(self.close))
         self.low = np.zeros(len(self.close))
@@ -292,10 +292,18 @@ def generate_training_variables(data_obj, strategy_dictionary):
         data_obj.exponential_moving_volatility_4,
         data_obj.exponential_moving_volatility_5,
         data_obj.kalman_signal,
-        #data_obj.close[:-1],
-        #data_obj.open[:-1],
-        #data_obj.high[:-1],
-        #data_obj.low[:-1],
+        data_obj.close[:-1],
+        data_obj.open[:-1],
+        data_obj.high[:-1],
+        data_obj.low[:-1],
+        pad_nan(data_obj.close[:-2], 1),
+        pad_nan(data_obj.open[:-2], 1),
+        pad_nan(data_obj.high[:-2], 1),
+        pad_nan(data_obj.low[:-2], 1),
+        pad_nan(data_obj.close[:-3], 2),
+        pad_nan(data_obj.open[:-3], 2),
+        pad_nan(data_obj.high[:-3], 2),
+        pad_nan(data_obj.low[:-3], 2),
         ))
 
     fitting_inputs = fitting_inputs.T
@@ -312,6 +320,10 @@ def generate_training_variables(data_obj, strategy_dictionary):
 
     return fitting_inputs_scaled, fitting_targets
 
+
+def pad_nan(vector, n):
+    pad_vector = np.zeros(n)
+    return np.hstack((pad_vector, vector))
 
 def imputer_transform(data):
     imputer = Imputer()
